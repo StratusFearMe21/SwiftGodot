@@ -3,6 +3,7 @@
         print ("Error: Not all parameters were initialized.")
         return 0
     }
+
     var types: [GDExtension.InitializationLevel: [Object.Type]] = [:]
     types[.core] = [EggNode.self].topologicallySorted()
     types[.editor] = [CaterpillarNode.self].topologicallySorted()
@@ -12,6 +13,6 @@
         types[level]?.forEach(register)
     }, deInitHook: { level in
         types[level]?.reversed().forEach(unregister)
-    })
+    }, minimumInitializationLevel: minimumInitializationLevel(for: types))
     return 1
 }
